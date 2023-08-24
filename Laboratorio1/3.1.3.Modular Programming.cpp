@@ -1,3 +1,4 @@
+#include <cstdlib> // Include cstdlib for the realloc function
 #include <iostream>
 using namespace std;
 
@@ -9,8 +10,8 @@ struct Vector {
 };
 
 void Resize(Vector *pThis) {
-  pThis->m_pVect =
-      (int *)realloc(pThis, sizeof(int) * (pThis->m_nMax + pThis->m_nDelta));
+  pThis->m_pVect = (int *)realloc(
+      pThis->m_pVect, sizeof(int) * (pThis->m_nMax + pThis->m_nDelta));
   // The Max has to be increased by delta
   pThis->m_nMax += pThis->m_nDelta;
 }
@@ -24,9 +25,17 @@ void Insert(Vector *pThis, int elem) {
 
 int main() {
   Vector sampleVector;
+  sampleVector.m_pVect = NULL; // Initialize the pointer to nullptr
+  sampleVector.m_nCount = 0;
+  sampleVector.m_nMax = 0;
+  sampleVector.m_nDelta = 1; // Set an initial value for m_nDelta
+
   for (int i = 0; i < 100; i++) {
     Insert(&sampleVector, i);
   }
-  cout << "Aiuda";
-  return 0;
+
+  // Print the elements in the vector
+  for (int i = 0; i < sampleVector.m_nCount; i++) {
+    cout << sampleVector.m_pVect[i] << " ";
+  }
 }
